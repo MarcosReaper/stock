@@ -19,4 +19,12 @@ public class Product {
     public void setSequence(Long sequence) {
         Sequence = sequence;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", Sequence=" + Sequence +
+                '}';
+    }
 }

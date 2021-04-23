@@ -37,4 +37,14 @@ public class Size {
     public void setSpecial(Boolean special) {
         this.special = special;
     }
+
+    @Override
+    public String toString() {
+        return "Size{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", backsoon=" + backsoon +
+                ", special=" + special +
+                '}';
+    }
 }

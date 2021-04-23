@@ -15,5 +15,6 @@ public class StockRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("-- start up stock calculate --");
         calculateStock.execute();
+        System.out.println("-- end stock calculate --");
     }
 }
