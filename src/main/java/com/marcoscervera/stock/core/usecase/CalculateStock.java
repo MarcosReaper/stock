@@ -14,5 +14,6 @@ public class CalculateStock {
 
     public void execute(){
         List<Product> products = getProductsRepository.execute();
+        products.forEach(p-> System.out.println(p.getId() + " - " + p.getSequence()));
     }
 }
