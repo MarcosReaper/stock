@@ -7,7 +7,8 @@ import com.marcoscervera.stock.core.repository.GetProductsRepository;
 import com.marcoscervera.stock.core.repository.GetSizesRepository;
 import com.marcoscervera.stock.core.repository.GetStocksRepository;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CalculateStock {
     private GetProductsRepository getProductsRepository;
@@ -22,13 +23,43 @@ public class CalculateStock {
         this.getStocksRepository = getStocksRepository;
     }
 
-    public void execute(){
-        List<Product> products = getProductsRepository.execute();
+    public List<Product> execute(){
         List<Size> sizes = getSizesRepository.execute();
         List<Stock> stocks = getStocksRepository.execute();
-        products.forEach(p-> System.out.println(p.toString()));
-        sizes.forEach(s-> System.out.println(s.toString()));
-        stocks.forEach(s -> System.out.println(s.toString()));
-        
+        SortedSet<Product> orderedProducts = new TreeSet<>(getProductsRepository.execute());
+        return getProductsWithStock(orderedProducts,sizes,stocks);
     }
+
+    private List<Product> getProductsWithStock(SortedSet<Product> orderedProducts, List<Size> sizes, List<Stock> stocks){
+        List<Product> productsWithStock = new ArrayList<>();
+        orderedProducts.forEach(p -> {
+            Set<Size> filteredSizes = sizes.stream().filter(s-> s.getProductId().equals(p.getId())).collect(Collectors.toSet());
+            if(calculate(filteredSizes, stocks)) {
+                System.out.println(" " + p.getId());
+                productsWithStock.add(p);
+            }
+        });
+        return productsWithStock;
+    }
+
+    private boolean calculate(Set<Size> sizes, List<Stock> stocks){
+        boolean hasSpecial = sizes.stream().anyMatch(size -> size.getSpecial());
+        boolean anySpecialHasStockOrBackSoon = false;
+        boolean anyNoSpecialHasStockOrBackSoon = false;
+        for(Size size: sizes){
+            boolean hasStockOrBackSoon = size.getBacksoon()
+                    || stocks.stream()
+                            .anyMatch(stock -> stock.getSizeId().equals(size.getId()) && stock.getQuantity() > 0L);
+            if(hasStockOrBackSoon){
+                if(hasSpecial && size.getSpecial()){
+                    anySpecialHasStockOrBackSoon = true;
+                }else if(!size.getSpecial()){
+                    anyNoSpecialHasStockOrBackSoon = true;
+                }
+            }
+        }
+        return (hasSpecial && anySpecialHasStockOrBackSoon && anyNoSpecialHasStockOrBackSoon)
+                || (!hasSpecial && anyNoSpecialHasStockOrBackSoon);
+    }
+
 }

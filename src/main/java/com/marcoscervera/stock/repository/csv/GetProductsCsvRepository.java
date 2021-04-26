@@ -1,4 +1,4 @@
-package com.marcoscervera.stock.repository;
+package com.marcoscervera.stock.repository.csv;
 
 import com.marcoscervera.stock.core.entity.Product;
 import com.marcoscervera.stock.core.exception.RepositoryException;
