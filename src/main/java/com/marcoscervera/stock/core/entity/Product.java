@@ -22,6 +22,14 @@ public class Product implements Comparable<Product>{
         Sequence = sequence;
     }
 
+    public Product() {
+    }
+
+    public Product(Long id, Long sequence) {
+        this.id = id;
+        Sequence = sequence;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

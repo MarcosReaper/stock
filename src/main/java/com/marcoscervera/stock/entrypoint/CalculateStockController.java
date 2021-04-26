@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CalculateStockController {
@@ -16,7 +17,7 @@ public class CalculateStockController {
     }
 
     @GetMapping("stock/products/available")
-    public List<Product> getProductsWithStock(){
-        return calculateStock.execute();
+    public List<Long> getProductsWithStock(){
+        return calculateStock.execute().stream().map(p -> p.getId()).collect(Collectors.toList());
     }
 }

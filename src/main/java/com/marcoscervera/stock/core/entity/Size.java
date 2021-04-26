@@ -10,6 +10,16 @@ public class Size {
         return id;
     }
 
+    public Size(Long id, Long productId, Boolean backsoon, Boolean special) {
+        this.id = id;
+        this.productId = productId;
+        this.backsoon = backsoon;
+        this.special = special;
+    }
+
+    public Size() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

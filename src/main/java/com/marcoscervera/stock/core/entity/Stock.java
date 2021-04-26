@@ -1,6 +1,6 @@
 package com.marcoscervera.stock.core.entity;
 
-public class Stock implements Comparable<Long>{
+public class Stock {
     private Long sizeId;
     private Long quantity;
 
@@ -16,6 +16,14 @@ public class Stock implements Comparable<Long>{
         return quantity;
     }
 
+    public Stock(Long sizeId, Long quantity) {
+        this.sizeId = sizeId;
+        this.quantity = quantity;
+    }
+
+    public Stock() {
+    }
+
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
@@ -26,12 +34,5 @@ public class Stock implements Comparable<Long>{
                 "sizeId=" + sizeId +
                 ", quantity=" + quantity +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Long sizeId) {
-        if(this.getSizeId() < sizeId) return -1;
-        else if(this.getSizeId() > sizeId) return 1;
-        return 0;
     }
 }
